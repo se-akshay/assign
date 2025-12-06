@@ -34,12 +34,14 @@ app.get("/", (req, res) => {
 });
 
 app.get("/health", (req, res) => {
+  
   res.json({
     status: "ok",
     message: "Server is running",
     mongodb:
       mongoose.connection.readyState === 1 ? "connected" : "disconnected",
     timestamp: new Date().toISOString(),
+    imp : mongoose.connection.readyState
   });
 });
 
