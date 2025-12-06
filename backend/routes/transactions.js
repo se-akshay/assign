@@ -101,6 +101,19 @@ const categorizeTransaction = (description) => {
   return "others";
 };
 
+// Test route - no auth required
+router.get("/test", async (req, res) => {
+  try {
+    res.json({
+      message: "Transaction route is working",
+      mongodb: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Get all transactions
 router.get("/", auth, async (req, res) => {
   try {
@@ -188,6 +201,9 @@ router.post("/manual", auth, async (req, res) => {
   try {
     const { date, description, amount, category } = req.body;
 
+    console.log("Request body:", req.body);
+    console.log("User ID from token:", req.userId);
+
     if (!date || !description || !amount) {
       return res
         .status(400)
@@ -203,6 +219,7 @@ router.post("/manual", auth, async (req, res) => {
       type: amount < 0 ? "income" : "expense",
     });
 
+    console.log("Transaction to save:", transaction);
     await transaction.save();
 
     res.status(201).json({
@@ -211,7 +228,11 @@ router.post("/manual", auth, async (req, res) => {
     });
   } catch (error) {
     console.error("Error adding transaction:", error);
-    res.status(500).json({ error: "Error adding transaction" });
+    console.error("Error details:", error.message);
+    res.status(500).json({ 
+      error: "Error adding transaction",
+      details: error.message 
+    });
   }
 });
 
