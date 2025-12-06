@@ -24,9 +24,22 @@ app.use("/api/transactions", require("./routes/transactions"));
 app.use("/api/budget", require("./routes/budget"));
 app.use("/api/analysis", require("./routes/analysis"));
 
-// Health check
+// Health check routes
+app.get("/", (req, res) => {
+  res.json({ 
+    status: "ok", 
+    message: "FinanceFlow API is running",
+    timestamp: new Date().toISOString()
+  });
+});
+
 app.get("/api/health", (req, res) => {
-  res.json({ status: "ok", message: "Server is running" });
+  res.json({ 
+    status: "ok", 
+    message: "Server is running",
+    mongodb: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
+    timestamp: new Date().toISOString()
+  });
 });
 
 // Error handling middleware
