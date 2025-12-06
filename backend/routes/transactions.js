@@ -106,8 +106,9 @@ router.get("/test", async (req, res) => {
   try {
     res.json({
       message: "Transaction route is working",
-      mongodb: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
-      timestamp: new Date().toISOString()
+      mongodb:
+        mongoose.connection.readyState === 1 ? "connected" : "disconnected",
+      timestamp: new Date().toISOString(),
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -229,9 +230,9 @@ router.post("/manual", auth, async (req, res) => {
   } catch (error) {
     console.error("Error adding transaction:", error);
     console.error("Error details:", error.message);
-    res.status(500).json({ 
+    res.status(500).json({
       error: "Error adding transaction",
-      details: error.message 
+      details: error.message,
     });
   }
 });
