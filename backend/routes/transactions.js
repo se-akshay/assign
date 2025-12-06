@@ -7,9 +7,10 @@ const path = require("path");
 const mongoose = require("mongoose");
 const auth = require("../middleware/auth");
 const Transaction = require("../models/Transaction");
+const os = require("os");
 
-// Configure multer for file uploads
-const upload = multer({ dest: "uploads/" });
+// Configure multer for file uploads - use /tmp for Vercel
+const upload = multer({ dest: path.join(os.tmpdir(), "uploads") });
 
 // Helper function to categorize transactions based on keywords
 const categorizeTransaction = (description) => {
