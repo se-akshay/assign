@@ -19,10 +19,10 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 // Routes
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/transactions", require("./routes/transactions"));
-app.use("/api/budget", require("./routes/budget"));
-app.use("/api/analysis", require("./routes/analysis"));
+app.use("/auth", require("./routes/auth"));
+app.use("/transactions", require("./routes/transactions"));
+app.use("/budget", require("./routes/budget"));
+app.use("/analysis", require("./routes/analysis"));
 
 // Health check routes
 app.get("/", (req, res) => {
@@ -33,7 +33,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/api/health", (req, res) => {
+app.get("/health", (req, res) => {
   res.json({
     status: "ok",
     message: "Server is running",
